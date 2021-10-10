@@ -1,0 +1,23 @@
+<!--
+<label *ngIf="side === 'left'">Left File:</label>
+<label *ngIf="side === 'right'">Right File:</label>
+-->
+<input type="text" [value]="source.label"
+       title="file label" placeholder="file label"
+       (keyup)="onChangeLabel($event)" />
+
+<span class="upload">
+  <input type="file" accept=".xls,.xlsx" (change)="onFileSelected($event)" />
+</span>
+
+<span class="metadata" *ngIf="isLoaded">
+  <label>
+    Source:
+    <select>
+      <option>XD</option>
+      <option>Caribou</option>
+    </select>
+  </label>
+  <label>Rows: {{rowCount}}</label>
+  <label>Columns: {{colCount}}</label>
+</span>

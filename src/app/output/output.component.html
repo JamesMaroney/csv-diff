@@ -1,0 +1,65 @@
+<table>
+  <thead>
+    <tr>
+      <ng-container *ngFor="let col of layout; trackBy trackByCol">
+        <ng-container *ngIf="!col.isGroup">
+          <th>
+            <ng-container *ngIf="col.index === 0">
+              <span class="col-name">ID</span>
+            </ng-container>
+            <ng-container *ngIf="col.index > 0">
+              <span class="source-name">{{(sources$[col.side] | async)?.label}}</span>
+              <span class="col-name">{{col.label}}</span>
+              <div class="column-linker" *ngIf="col.index > 0">
+                                          <button title="link column">
+                                          <i class="fa fa-link"></i>
+                                          </button>
+                                          <div class="column-picker">
+                                          <label>Link to Column:</label>
+                                          <ul>
+                                          <li *ngFor="let linkCol of linkableColumns(col.side === 'left' ? 'right' : 'left')"
+                                          (click)="onLinkColumns(col, linkCol)">
+                                          <span class="source-name">{{(sources$[linkCol.side] | async)?.label}}</span>
+                                          <span class="col-name">{{linkCol.label}}</span>
+                                          </li>
+                                          </ul>
+                                          </div>
+                                          </div>
+            </ng-container>
+          </th>
+        </ng-container>
+        <ng-container *ngIf="col.isGroup">
+          <th class="linked left">
+            <span class="source-name">{{(sources$['left'] | async)?.label}}</span>
+            <span class="col-name">{{col.left.label}}</span>
+            <button title="unlink columns"
+                    (click)="onUnlinkColumns(col)">
+              <i class="fa fa-link"></i>
+            </button>
+          </th>
+          <th class="linked right">
+            <span class="source-name">{{(sources$['right'] | async)?.label}}</span>
+            <span class="col-name">{{col.right.label}}</span>
+          </th>
+          <th class="linked status">
+            Status
+          </th>
+        </ng-container>
+      </ng-container>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let row of (mergedDataPreview$ | async)">
+      <td *ngFor="let cell of row">{{cell}}</td>
+    </tr>
+  </tbody>
+</table>
+<p *ngIf="(mergedDataPreview$ | async)?.length">
+  Showing preview of up to 20 rows.
+</p>
+
+<button class="download" (click)="onClickDownload()"
+        *ngIf="(mergedDataPreview$ | async)?.length">
+  Download
+</button>

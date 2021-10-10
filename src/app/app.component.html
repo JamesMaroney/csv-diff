@@ -1,0 +1,54 @@
+<header>
+  <h1>CSV Diff</h1>
+</header>
+<section class="intro">
+  <div>
+    <p>
+      This tool helps identify differences between two CSV files or spreadsheets.
+    </p>
+    <p>
+      Note: Security and confidentiality is important in
+      this world, and this data is YOUR data. To that effect,
+      <b>No Data leaves your computer</b> with this tool. All the work is
+      done in your browser, and nothing is stored aside from you saving
+      the final spreadsheet locally.
+    </p>
+  </div>
+  <div>
+    <strong>Status Column:</strong>
+    <table>
+      <tr>
+        <td>missing in X</td>
+        <td>X had no matching row for the ID column, and therefore no value to compare.</td>
+      </tr>
+      <tr>
+        <td>empty in X</td>
+        <td>X has a matching row for the ID column, but no value (or "NULL") for the column.</td>
+      </tr>
+      <tr>
+        <td>different</td>
+        <td>Both data sources have a value (not missing or empty) and are different.</td>
+      </tr>
+      <tr>
+        <td>same</td>
+        <td>Values for the columns in both data sources are equal. Note "NULL" is considered to be equal to having no value.</td>
+      </tr>
+    </table>
+  </div>
+</section>
+<main>
+  <div class="sources">
+    <section class="source source-a"
+             *ngIf="(leftSource$ | async) as leftSource">
+      <app-source [source]="leftSource"></app-source>
+    </section>
+    <section class="source source-b"
+             *ngIf="(rightSource$ | async) as rightSource">
+      <app-source [source]="rightSource"></app-source>
+    </section>
+  </div>
+  <section class="output"
+           *ngIf="(layout$ | async) as layout">
+    <app-output [layout]="layout"></app-output>
+  </section>
+</main>
